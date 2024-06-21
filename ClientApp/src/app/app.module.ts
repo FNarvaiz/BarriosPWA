@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { InstallButtonComponent } from "./install-button/install-button.component";
 
 @NgModule({ declarations: [
         AppComponent,
@@ -18,7 +19,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         CounterComponent,
         FetchDataComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    bootstrap: [AppComponent],
+    providers: [provideHttpClient(withInterceptorsFromDi())], imports: [BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         FormsModule,
         RouterModule.forRoot([
             { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -26,9 +28,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
             { path: 'fetch-data', component: FetchDataComponent },
         ]),
         ServiceWorkerModule.register('ngsw-worker.js', {
-          enabled: !isDevMode(),
-          // Register the ServiceWorker as soon as the application is stable
-          // or after 30 seconds (whichever comes first).
-          registrationStrategy: 'registerWhenStable:30000'
-        })], providers: [provideHttpClient(withInterceptorsFromDi())] })
+            enabled: !isDevMode(),
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000'
+        }), InstallButtonComponent] })
 export class AppModule { }
